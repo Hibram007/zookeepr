@@ -44,6 +44,11 @@ function filterByQuery(query, animalsArray) {
     return filteredResults;
   }
 
+  function findById(id, animalsArray) {
+    const result = animalsArray.filter(animal => animal.id === id) [0];
+    return result;
+  }
+
 // first arguement is the route client will fetch from
 // second argument is a callback function, executes everytie the route is accessed with a GET request.
 app.get('/api/animals', (req, res) => {
@@ -54,6 +59,18 @@ app.get('/api/animals', (req, res) => {
     }
     res.json(results);
 });
+
+//param route - 2nd GET request 
+// res.send() will send 404 error if resource is not found 
+app.get('/api/animals/:id', (req, res) => {
+  const result = findById(req.params.id, animals);
+  if (result) {
+    res.json(result);
+  } else {
+    res.send(404);
+  }
+});
+
 app.listen(PORT, () => {
   console.log(`API server now on port ${PORT}!`);
 });
