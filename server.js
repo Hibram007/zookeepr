@@ -9,6 +9,9 @@ const PORT = process.env.PORT || 3001;
 //instantiating server code
 const app = express();
 
+// middleware to make css/js/html files available without multiple routes
+app.use(express.static('public'));
+
 // parse incoming string or array data 
 app.use(express.urlencoded({ extended: true }));
 // parse incoming JSON data
@@ -126,6 +129,11 @@ app.post('/api/animals', (req, res) => {
   //sends data back to the client
   res.json(req.body);
   }
+});
+
+// route adding index html file - sending response data into the index.html file that will be displayed
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, './public/index.html'));
 });
 
 
